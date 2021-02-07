@@ -12,7 +12,8 @@ class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
 
     def test_hello(self):
-        assert chrome_password.hello() == "hello"
+        assert chrome_password.hello.hello() == "hello"
+
 
 if __name__ == '__main__':
     unittest.main()

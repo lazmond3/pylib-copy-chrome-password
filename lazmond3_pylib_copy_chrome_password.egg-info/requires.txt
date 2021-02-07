@@ -1,0 +1,3 @@
+lazmond3-pylib-debug
+pycrypto
+fuzzywuzzy
