@@ -37,7 +37,7 @@ setup(
         "lazmond3-pylib-debug",
         "lazmond3-pylib-clipboard",
         "pycrypto",
-        "fuzzywuzzy"
+        "fuzzywuzzy",
         "pyfzf",
     ],
     license=license,
