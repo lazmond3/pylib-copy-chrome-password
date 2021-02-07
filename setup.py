@@ -35,8 +35,10 @@ setup(
     url='https://github.com/lazmond3/pylib-copy-chrome-password.git',
     install_requires=[
         "lazmond3-pylib-debug",
+        "lazmond3-pylib-clipboard",
         "pycrypto",
         "fuzzywuzzy"
+        "pyfzf",
     ],
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
