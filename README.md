@@ -7,3 +7,7 @@ commands
 ```
 SQL=  PASS= copypass
 ```
+
+## insights
+
+- https://github.com/sadovnychyi/alfred-chrome-passwords
