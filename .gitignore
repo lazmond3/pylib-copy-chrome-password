@@ -9,3 +9,9 @@ lazmodn3_instagram_to_discord.egg-info
 .venv-copy-chrome
 build
 
+build
+dist
+lazmond3_pylib_copy_chrome_password.egg-info
+
+package
+src
