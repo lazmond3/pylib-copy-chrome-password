@@ -28,12 +28,9 @@ CHROME_PASS_J=opj(
 
 def get_site(passwords:list):
   fzf = FzfPrompt()
-  # table_names = fzf.prompt(passwords)
   if DEBUG:
     print("--- passwords")
     for p in passwords:
-      # if (p["title"] != p["autocomplete"]):
-      #   print(p)
       print(p)
     print("--- END ---")
 
@@ -87,7 +84,6 @@ def select_site_and_get_encrypted_password(query, profile):
     assert len(selected_site) > 0
     assert selected_site[0].split("\t")
 
-    # マッチング処理は 別の関数？s
     sitename, username = selected_site[0].split("\t")
     target = None
     for p in passwords:
@@ -100,13 +96,6 @@ def select_site_and_get_encrypted_password(query, profile):
     password_encrypted = target["arg"]
 
     return password_encrypted
-    
-  # passwords = fuzzywuzzy.process.extractBests(
-  #   query, passwords, processor=lambda x: '%s %s' % (
-  #     x['title'], x['subtitle']) if isinstance(x, dict) else x)
-  # json.dump({'items': [p[0] for p in passwords]}, sys.stdout, indent=2)
-  # sys.stdout.flush()
-
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
