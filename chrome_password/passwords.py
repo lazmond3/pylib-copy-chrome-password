@@ -3,7 +3,7 @@
 import argparse
 import base64
 import codecs
-import fuzzywuzzy.process
+# import fuzzywuzzy.process
 from pyfzf.pyfzf import FzfPrompt
 from debug import DEBUG
 import json
@@ -95,7 +95,8 @@ def select_site_and_get_encrypted_password(query, profile):
       if (sitename == p["title"] and username == new_sub):
         target = p
         break
-    print("target: ", target)
+    if DEBUG:
+      print("target: ", target)
     password_encrypted = target["arg"]
 
     return password_encrypted

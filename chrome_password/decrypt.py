@@ -4,6 +4,7 @@ import hashlib
 import subprocess
 import sys
 import os
+from debug import DEBUG
 
 
 def decrypt(password):
@@ -22,7 +23,8 @@ def decrypt(password):
         s = ''.join([chr(i) for i in data if i >= 32])
     except TypeError:
         s = ''.join([i for i in data if ord(i) >= 32])
-    return sys.stdout.write(s)
+    return s
+    # return sys.stdout.write(s)
 
 
 if __name__ == '__main__':
