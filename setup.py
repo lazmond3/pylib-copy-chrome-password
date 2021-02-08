@@ -39,6 +39,11 @@ setup(
         "pycrypto",
         "pyfzf",
     ],
+    entry_points={
+        "console_scripts": [
+            "copy_pass=chrome_password.cli:main"
+        ]
+    },
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
     test_suite='tests'
