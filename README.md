@@ -21,6 +21,8 @@ python3 setup.py install
 copy_pass
 ```
 
+![](2021-02-08-10-14-12.png)
+
 ## insights
 
 - https://github.com/sadovnychyi/alfred-chrome-passwords
