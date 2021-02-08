@@ -4,6 +4,8 @@ import argparse
 import base64
 import codecs
 import fuzzywuzzy.process
+from pyfzf.pyfzf import FzfPrompt
+from debug import DEBUG
 import json
 import os
 import sqlite3
@@ -24,7 +26,38 @@ CHROME_PASS_J=opj(
   HOME, CHROME, PROFILE, LOGIN_DATA
 )
 
-def main(query, profile):
+def get_site(passwords:list):
+  fzf = FzfPrompt()
+  # table_names = fzf.prompt(passwords)
+  if DEBUG:
+    print("--- passwords")
+    for p in passwords:
+      # if (p["title"] != p["autocomplete"]):
+      #   print(p)
+      print(p)
+    print("--- END ---")
+
+  new_list_with_mail = []
+  for p in passwords:
+    username = p["subtitle"]
+    if len(username) == 0:
+      username = "NOUSER"
+    new_list_with_mail.append({"title": p["title"], "username": username})
+  map_passwords_site_with_name = list(
+    map(
+      lambda x: x["title"] + "\t" + x["username"],
+      new_list_with_mail
+    )
+  )
+  if DEBUG:
+    for i in map_passwords_site_with_name:
+      print(i)
+
+  return map_passwords_site_with_name
+
+
+
+def select_site_and_get_encrypted_password(query, profile):
   with tempfile.NamedTemporaryFile() as tmp:
     with open(os.path.join(HOME, CHROME, profile, LOGIN_DATA), 'rb') as f:
       tmp.write(f.read())
@@ -48,11 +81,30 @@ def main(query, profile):
         'valid': 'true' if len(password) > 0 else 'false',
         'autocomplete': title,
       })
-  passwords = fuzzywuzzy.process.extractBests(
-    query, passwords, processor=lambda x: '%s %s' % (
-      x['title'], x['subtitle']) if isinstance(x, dict) else x)
-  json.dump({'items': [p[0] for p in passwords]}, sys.stdout, indent=2)
-  sys.stdout.flush()
+    sites = get_site(passwords)
+    fzf = FzfPrompt()
+    selected_site = fzf.prompt(sites)
+    assert len(selected_site) > 0
+    assert selected_site[0].split("\t")
+
+    # マッチング処理は 別の関数？s
+    sitename, username = selected_site[0].split("\t")
+    target = None
+    for p in passwords:
+      new_sub = "NOUSER" if len(p["subtitle"]) == 0 else p["subtitle"]
+      if (sitename == p["title"] and username == new_sub):
+        target = p
+        break
+    print("target: ", target)
+    password_encrypted = target["arg"]
+
+    return password_encrypted
+    
+  # passwords = fuzzywuzzy.process.extractBests(
+  #   query, passwords, processor=lambda x: '%s %s' % (
+  #     x['title'], x['subtitle']) if isinstance(x, dict) else x)
+  # json.dump({'items': [p[0] for p in passwords]}, sys.stdout, indent=2)
+  # sys.stdout.flush()
 
 
 if __name__ == '__main__':
@@ -60,4 +112,4 @@ if __name__ == '__main__':
   parser.add_argument('--query', default='')
   parser.add_argument('--profile', default=PROFILE)
   args = parser.parse_args()
-  main(args.query, args.profile)
+  select_site_and_get_encrypted_password(args.query, args.profile)
