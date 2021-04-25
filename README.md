@@ -13,6 +13,10 @@ brew install fzf
 # PIP
 pip3 install requirements.txt
 python3 setup.py install
+
+# or 
+pip3 install git+https://github.com/lazmond3/pylib-copy-chrome-password.git
+
 ```
 
 ## how to run
